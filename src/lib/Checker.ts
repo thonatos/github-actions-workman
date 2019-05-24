@@ -13,8 +13,8 @@ export default class Checker extends Base {
       return;
     }
 
-    if (checkReleaseVersion(currVersion, nextVersion)) {
-      tools.log('CheckReleaseVersion Failed, skip!', nextVersion, currVersion);
+    if (!checkReleaseVersion(currVersion, nextVersion)) {
+      tools.log('CheckReleaseVersion Failed, skip!', currVersion, nextVersion);
       return;
     }
 
@@ -28,6 +28,10 @@ export default class Checker extends Base {
     tools.log('Label', label);
     if (label) {
       await this.updateLabel(label);
+    }
+
+    if (this.event === 'pull_request' && this.action === 'closed') {
+      await this.releaseVersion();
     }
   }
 }
