@@ -4,12 +4,43 @@
   "description": "Github Actions For Release",
   "main": "dist/index.js",
   "scripts": {
-    "test": "jest --verbose",
-    "test-watch": "jest --watch",
     "dev": "tsc -w",
     "build": "tsc",
     "lint": "tslint --project . ",
-    "ci": "npm run test"
+    "ci": "npm run test",
+    "test": "jest --verbose",
+    "test-watch": "jest --watch",
+    "release": "standard-version"
+  },
+  "standard-version": {
+    "types": [
+      {
+        "type": "feat",
+        "section": "Features"
+      },
+      {
+        "type": "fix",
+        "section": "Bug Fixes"
+      },
+      {
+        "type": "test",
+        "section": "Tests",
+        "hidden": true
+      },
+      {
+        "type": "build",
+        "section": "Build System",
+        "hidden": true
+      },
+      {
+        "type": "chore",
+        "hidden": true
+      },
+      {
+        "type": "ci",
+        "hidden": true
+      }
+    ]
   },
   "author": "Thonatos.Yang <thonatos.yang@gmail.com>",
   "license": "MIT",
@@ -19,11 +50,12 @@
     "semver": "^6.1.0"
   },
   "devDependencies": {
-    "@types/node": "^12.0.2",
-    "@types/semver": "^6.0.0",
     "@types/debug": "^4.1.4",
     "@types/jest": "^24.0.13",
+    "@types/node": "^12.0.2",
+    "@types/semver": "^6.0.0",
     "jest": "^24.8.0",
+    "standard-version": "^6.0.1",
     "ts-jest": "^24.0.2",
     "tslint": "^5.16.0",
     "typescript": "^3.4.5"
