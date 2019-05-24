@@ -22,8 +22,8 @@ action "github-actions-release" {
   args = "release"
   secrets = [
     "GITHUB_TOKEN",
-    "GITHUB_RELEASE_SSH_ID_RSA",
-    "GITHUB_RELEASE_SSH_ID_RSA_PUB",
+    "RELEASE_SSH_ID_RSA",
+    "RELEASE_SSH_ID_RSA_PUB",
   ]
 }
 
