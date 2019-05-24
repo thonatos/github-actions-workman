@@ -20,7 +20,11 @@ action "github-actions-release" {
   uses = "./"
   needs = ["npm ci"]
   args = "release"
-  secrets = ["GITHUB_TOKEN"]
+  secrets = [
+    "GITHUB_TOKEN",
+    "GITHUB_RELEASE_SSH_ID_RSA",
+    "GITHUB_RELEASE_SSH_ID_RSA_PUB",
+  ]
 }
 
 ## workflow
