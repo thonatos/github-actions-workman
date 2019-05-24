@@ -34,38 +34,49 @@ export default class Base {
   public async releaseVersion() {
     const tools = this.tools;
     const { nextVersion } = this;
-    const { state, merged } = this.tools.context.payload;
+    const { state, merged } = this.tools.context.payload.pull_request;
 
-    if (state === 'closed' && merged === true) {
-      await tools.runInWorkspace('git', ['checkout', 'master']);
-      await standardVersion({
-        infile: 'docs/CHANGELOG.md',
-        noVerify: true,
-        releaseAs: nextVersion,
-        silent: true,
-        types: StandardVersionTypes,
-      });
-      await tools.runInWorkspace('git', [
-        'push',
-        '--follow-tags',
-        'origin',
-        'master',
-      ]);
+    tools.log('@@releaseVersion', state, merged, nextVersion);
+
+    if (state !== 'closed' || merged !== true) {
+      return;
     }
+
+    await tools.runInWorkspace('git', ['checkout', 'master']);
+    await standardVersion({
+      infile: 'CHANGELOG.md',
+      noVerify: true,
+      releaseAs: nextVersion,
+      silent: true,
+      types: StandardVersionTypes,
+    });
+
+    const changelog = tools.getFile('CHANGELOG.md');
+    tools.log('@@changelog', changelog);
+
+    await tools.runInWorkspace('git', [
+      'push',
+      '--follow-tags',
+      'origin',
+      'master',
+    ]);
   }
 
   public init() {
     const tools = this.tools;
     const pkg = tools.getPackageJSON() || {};
     const { event, payload, repo } = tools.context;
+    const { action } = payload;
 
+    tools.log('@@@event', event);
+    tools.log('@@@action', action);
     tools.log('@@@pkg', JSON.stringify(pkg, null, 2));
     tools.log('@@@repo', JSON.stringify(repo, null, 2));
     tools.log('@@@event', JSON.stringify(event, null, 2));
     tools.log('@@@payload', JSON.stringify(payload, null, 2));
 
     this.event = event;
-    this.action = payload.action;
+    this.action = action;
     this.currVersion = pkg.version || '*';
     this.nextVersion = checkReleaseProposal(payload.pull_request.title);
   }
