@@ -7,6 +7,7 @@ const options = {
 
 const task = async (tools) => {
   const args: any = tools.arguments;
+  tools.log('@@arguments', args);
 
   if (args === 'release') {
     const checker = new Checker(tools);

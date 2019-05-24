@@ -23,7 +23,7 @@ export const checkReleaseProposal = (proposal: string) => {
  */
 export const searchReleaseLabel = (
   currVersion: string,
-  nextVersion: string,
+  nextVersion: string
 ) => {
   const currSemVer = semver.parse(currVersion) as ReleaseActions.PlainObject;
   const nextSemVer = semver.parse(nextVersion) as ReleaseActions.PlainObject;
@@ -43,7 +43,7 @@ export const searchReleaseLabel = (
  */
 export const checkReleaseVersion = (
   currVersion: string,
-  nextVersion: string,
+  nextVersion: string
 ) => {
   if (!nextVersion) {
     return false;
