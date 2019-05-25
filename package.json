@@ -1,6 +1,6 @@
 {
   "name": "github-actions-release",
-  "version": "1.0.4",
+  "version": "1.0.5",
   "description": "Github Actions For Release",
   "main": "dist/index.js",
   "scripts": {
