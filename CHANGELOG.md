@@ -2,6 +2,15 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [1.0.7](https://github.com/thonatos/github-actions-release/compare/v1.0.6...v1.0.7) (2019-05-25)
+
+
+### Features
+
+* run local actions ([#9](https://github.com/thonatos/github-actions-release/issues/9)) ([a256cd1](https://github.com/thonatos/github-actions-release/commit/a256cd1))
+
+
+
 ### [1.0.6](https://github.com/thonatos/github-actions-release/compare/v1.0.5...v1.0.6) (2019-05-25)
 
 
