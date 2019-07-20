@@ -1,5 +1,5 @@
 import Debug from 'debug';
-import * as parse from 'git-changelog-parser';
+import parse from 'git-changelog-parser';
 import latestNpmVersion from 'latest-version';
 import { checkReleaseProposal } from '../util';
 export default class Base {
@@ -54,7 +54,7 @@ export default class Base {
     this.packageVersion = pkg.version || '*';
 
     // latest npm version
-    this.latestVersion = await latestNpmVersion(pkg.packageName || '');
+    this.latestVersion = await latestNpmVersion(pkg.name || '');
 
     // release npm version
     this.releaseVersion = checkReleaseProposal(payload.pull_request.title);
