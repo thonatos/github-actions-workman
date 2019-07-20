@@ -65,7 +65,7 @@ export default class Checker extends Base {
     await this.tools.github.issues.update({
       ...repo,
       issue_number: issueNumber,
-      labels: [`semver:${label}`, `type: release`],
+      labels: [`semver: ${label}`, `type: release`],
     });
   }
 }
