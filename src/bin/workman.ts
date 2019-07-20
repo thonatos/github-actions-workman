@@ -24,15 +24,16 @@ const task = async (tools: any) => {
   if (command === 'check') {
     const checker = new Checker();
     await checker.run(tools);
+    return;
   }
 
   if (command === 'release') {
     const releaser = new Releaser();
     await releaser.run(tools);
+    return;
   }
 
   tools.log('@@command', 'no command found');
-
 };
 
 Toolkit.run(task, options);

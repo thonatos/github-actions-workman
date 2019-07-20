@@ -5,7 +5,12 @@ export default class Checker extends Base {
   public async run(tools: any) {
     await super.init(tools);
 
-    const { packageVersion, releaseVersion, latestVersion, changelog, action, event } = this;
+    const { packageVersion, releaseVersion, latestVersion, changelog, event } = this;
+
+    if (event !== 'pull_request') {
+      tools.log('Checker: should be triggered with event:pull_request!');
+      return;
+    }
 
     // Check Release Proposal
     tools.log('Checker: check Release Proposal');
@@ -44,11 +49,6 @@ export default class Checker extends Base {
 
     tools.log('Checker: update Label', label);
     await this.updateLabel(label);
-
-    if (event !== 'pull_request' || action !== 'closed') {
-      tools.log('Checker: check event Failed, skip!', event, action);
-      return;
-    }
   }
 
   public async updateLabel(label: string) {
