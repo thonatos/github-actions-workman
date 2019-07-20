@@ -19,6 +19,7 @@ export default class Checker extends Base {
       return;
     }
 
+    tools.log('Releaser: Check Commit Message');
     if (commitMessage === `Release ${packageVersion}`) {
       tools.log(`Releaser: release npm package ${packageVersion}`);
       await this.publishNodePackage();
