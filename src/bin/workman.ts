@@ -16,7 +16,8 @@ const task = async (tools: any) => {
   const args: any = tools.arguments;
   tools.log('@@arguments', args);
 
-  const { _: command } = args;
+  const { _: commands } = args;
+  const [ command = '', ] = commands || [];
 
   switch (command) {
     case 'check':
@@ -30,6 +31,7 @@ const task = async (tools: any) => {
       break;
 
     default:
+      tools.log('@@command', 'no command found');
       break;
   }
 
