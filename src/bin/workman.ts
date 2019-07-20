@@ -7,7 +7,6 @@ import Releaser from '../lib/Releaser';
 const options = {
   event: 'pull_request',
   secrets: [
-    'NPM_TOKEN',
     'GITHUB_TOKEN',
   ],
 };

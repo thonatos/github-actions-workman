@@ -15,15 +15,18 @@ export default class Checker extends Base {
     const commitMessage = await this.getCommitMessage();
 
     if (event !== 'push') {
-      tools.log('Releaser: should be triggered with event:push');
+      tools.exit.neutral('Releaser: should be triggered with event:push');
       return;
     }
 
     tools.log('Releaser: Check Commit Message');
-    if (commitMessage === `Release ${packageVersion}`) {
-      tools.log(`Releaser: release npm package ${packageVersion}`);
-      await this.publishNodePackage();
+    if (commitMessage !== `Release ${packageVersion}`) {
+      tools.exit.neutral('Releaser: commit message should include release proposal');
     }
+
+    tools.log(`Releaser: release npm package ${packageVersion}`);
+    await this.publishNodePackage();
+    tools.exit.success('Releaser: done!');
   }
 
   private async getCommitMessage() {

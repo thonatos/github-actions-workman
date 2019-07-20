@@ -17,7 +17,7 @@ export default class Base {
   public latestVersion: any = '';
 
   constructor() {
-    this.debug = Debug('Github-Actions-Release');
+    this.debug = Debug('Github-Actions-Workman');
   }
 
   public async init(tools: any) {
