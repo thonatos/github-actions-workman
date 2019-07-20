@@ -21,4 +21,4 @@ if [ -n "$NPM_TOKEN" ]; then
   chmod 0600 "$NPM_CONFIG_USERCONFIG";
 fi
 
-workman;
+sh -c "$*";
