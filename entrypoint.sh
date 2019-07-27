@@ -2,16 +2,18 @@
 set -e
 
 # env
+echo "# env";
 sh -c "env";
 
 # event.json
 if [ -n "$GITHUB_EVENT_PATH" ]; then
+  echo "# event.json";
   cat "$GITHUB_EVENT_PATH";
 fi
 
 # npm
 if [ -n "$NPM_TOKEN" ]; then
-  echo "# add npm config";
+  echo "# npm";
 
   # Respect NPM_CONFIG_USERCONFIG if it is provided, default to $HOME/.npmrc
   NPM_CONFIG_USERCONFIG="${NPM_CONFIG_USERCONFIG-"$HOME/.npmrc"}";
