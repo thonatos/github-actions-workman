@@ -47,8 +47,12 @@ export default class Base {
     const { payload } = tools.context;
 
     // changelog
-    const content = tools.getFile('History.md');
-    this.changelog = parse(content);
+    try {
+      const content = tools.getFile('History.md');
+      this.changelog = parse(content);
+    } catch (error) {
+      this.changelog = undefined;
+    }
 
     // current npm version
     this.packageVersion = pkg.version || '*';
