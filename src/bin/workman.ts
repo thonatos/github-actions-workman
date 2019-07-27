@@ -5,7 +5,6 @@ import Checker from '../lib/Checker';
 import Releaser from '../lib/Releaser';
 
 const options = {
-  event: 'pull_request',
   secrets: [
     'GITHUB_TOKEN',
   ],
