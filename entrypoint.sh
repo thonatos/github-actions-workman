@@ -1,7 +1,15 @@
 #!/bin/sh
 set -e
 
-# add npm config
+# env
+sh -c "env";
+
+# event.json
+if [ -n "$GITHUB_EVENT_PATH" ]; then
+  cat "$GITHUB_EVENT_PATH";
+fi
+
+# npm
 if [ -n "$NPM_TOKEN" ]; then
   echo "# add npm config";
 
