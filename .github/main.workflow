@@ -1,52 +1,35 @@
-# Push
+# workflow
 workflow "Push" {
   on = "push"
-  resolves = ["Release"]
+  resolves = ["auto release"]
 }
 
-action "Installation" {
-  needs = "Filters for GitHub Actions"
-  uses = "thonatos/github-actions-nodejs@v0.1.1"
-  args = "npm install npminstall -g && npminstall"
-}
-
-action "CI" {
-  needs = "Installation"
-  uses = "thonatos/github-actions-nodejs@v0.1.1"
-  args = "npm run ci"
-}
-
-action "Release" {
-  needs = "CI"
-  uses = "thonatos/github-actions-nodejs@v0.1.1"
-  args = "npm run semantic-release "
-  secrets = ["GITHUB_TOKEN", "NPM_TOKEN"]
-}
-
-action "Filters for GitHub Actions" {
-  uses = "actions/bin/filter@3c0b4f0e63ea54ea5df2914b4fabf383368cd0da"
-  secrets = ["GITHUB_TOKEN"]
-  args = "branch master"
-}
-
-# Pull Request
 workflow "Pull Request" {
   on = "pull_request"
-  resolves = ["npm check"]
+  resolves = ["workman check"]
 }
 
+# actions
 action "npm install" {
-  uses = "docker://node:lts-slim"
-  args = "npm install"
+  uses = "docker://thonatos/github-actions-nodejs"
+  args = "npm install -g npminstall && npminstall"
 }
 
 action "npm ci" {
-  uses = "docker://node:lts-slim"
+  uses = "docker://thonatos/github-actions-nodejs"
   needs = ["npm install"]
   args = "npm run ci"
 }
 
-action "npm check" {
+# target
+action "auto release" {
+  uses = "docker://thonatos/github-actions-nodejs"
+  needs = ["filter master", "npm ci"]
+  args = "npm run semantic-release"
+  secrets = ["GITHUB_TOKEN", "NPM_TOKEN"]
+}
+
+action "workman check" {
   uses = "thonatos/github-actions-workman@1.4.0-Marketplace"
   needs = ["npm ci"]
   args = "workman check"
@@ -54,4 +37,11 @@ action "npm check" {
     "GITHUB_TOKEN",
     "NPM_TOKEN"
   ]
+}
+
+# filter
+action "filter master" {
+  uses = "actions/bin/filter@3c0b4f0e63ea54ea5df2914b4fabf383368cd0da"
+  secrets = ["GITHUB_TOKEN"]
+  args = "branch master"
 }
