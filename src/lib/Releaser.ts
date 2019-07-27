@@ -22,6 +22,7 @@ export default class Checker extends Base {
     tools.log('Releaser: Check Commit Message');
     if (commitMessage !== `Release ${packageVersion}`) {
       tools.exit.neutral('Releaser: commit message should include release proposal');
+      return;
     }
 
     tools.log(`Releaser: release npm package ${packageVersion}`);

@@ -1,7 +1,6 @@
 import Debug from 'debug';
 import parse from 'git-changelog-parser';
 import latestNpmVersion from 'latest-version';
-import { checkReleaseProposal } from '../util';
 export default class Base {
   public tools: any;
   public options: any;
@@ -10,6 +9,7 @@ export default class Base {
   public pkg: any = {};
   public event: string = '';
   public action: string = '';
+  public payload: any = {};
 
   public changelog: any = '';
   public packageVersion: any = '';
@@ -37,6 +37,7 @@ export default class Base {
     this.tools = tools;
     this.event = event;
     this.action = action;
+    this.payload = payload;
 
     await this.prepare();
   }
@@ -59,8 +60,5 @@ export default class Base {
 
     // latest npm version
     this.latestVersion = await latestNpmVersion(pkg.name || '');
-
-    // release npm version
-    this.releaseVersion = checkReleaseProposal(payload.pull_request.title);
   }
 }

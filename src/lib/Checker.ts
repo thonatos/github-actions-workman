@@ -1,16 +1,23 @@
-import { checkChangelogVersion, checkReleaseVersion, searchReleaseLabel } from '../util';
+import {
+  checkChangelogVersion,
+  checkReleaseProposal,
+  checkReleaseVersion,
+  searchReleaseLabel
+} from '../util';
 import Base from './Base';
 
 export default class Checker extends Base {
   public async run(tools: any) {
     await super.init(tools);
 
-    const { packageVersion, releaseVersion, latestVersion, changelog, event } = this;
+    const { packageVersion, latestVersion, changelog, event, payload } = this;
 
     if (event !== 'pull_request') {
       tools.exit.neutral('Checker: should be triggered with event:pull_request!');
       return;
     }
+
+    const releaseVersion = checkReleaseProposal(payload.pull_request.title);
 
     // Check Release Proposal
     tools.log('Checker: check Release Proposal');
