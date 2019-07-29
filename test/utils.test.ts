@@ -1,12 +1,12 @@
 import {
-  checkReleaseProposal,
-  checkReleaseVersion,
-  searchReleaseLabel,
-} from '../src/util';
+  getReleaseLabel,
+  getReleaseVersion,
+  satisfiesVersion,
+} from '../lib/utils';
 
-describe('util/index.ts', () => {
+describe('lib/utils/index.ts', () => {
 
-  test('checkReleaseProposal', () => {
+  test('getReleaseVersion', () => {
     const proposals = [
       'Re',
       'Release',
@@ -30,11 +30,11 @@ describe('util/index.ts', () => {
     for (let index = 0; index < proposals.length; index++) {
       const proposal = proposals[index];
       const result = results[index];
-      expect(checkReleaseProposal(proposal)).toBe(result);
+      expect(getReleaseVersion(proposal)).toBe(result);
     }
   });
 
-  test('checkReleaseVersion', () => {
+  test('satisfiesVersion', () => {
     const releases = [
       ['1.0.0', '1.0.1'],
       ['1.0.0', '1.1.0'],
@@ -47,11 +47,11 @@ describe('util/index.ts', () => {
     for (let index = 0; index < releases.length; index++) {
       const [currVersion, nextVersion] = releases[index];
       const satisfied = results[index];
-      expect(checkReleaseVersion(currVersion, nextVersion)).toBe(satisfied);
+      expect(satisfiesVersion(currVersion, nextVersion)).toBe(satisfied);
     }
   });
 
-  test('searchReleaseLabel', () => {
+  test('getReleaseLabel', () => {
     const releases = [
       ['1.0.0', '1.0.1', 'patch'],
       ['1.0.0', '1.1.0', 'minor'],
@@ -61,9 +61,9 @@ describe('util/index.ts', () => {
       ['1.0.0', '2.1.1', 'major'],
     ];
 
-    for (let index = 0; index < releases.length; index++) {
-      const [currVersion, nextVersion, label] = releases[index];
-      expect(searchReleaseLabel(currVersion, nextVersion)).toBe(label);
+    for (const release of releases) {
+      const [currVersion, nextVersion, label] = release;
+      expect(getReleaseLabel(currVersion, nextVersion)).toBe(label);
     }
   });
 });

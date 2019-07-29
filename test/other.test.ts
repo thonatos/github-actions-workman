@@ -1,19 +1,23 @@
+import Debug from 'debug';
 
-const run = command => {
+const debug = Debug('Github-Actions-Workman-Test');
+
+const run = (command: string) => {
     return new Promise((resolve) => {
         setTimeout(() => {
-            console.log('###', command)
+            debug('###', command);
             resolve();
-        }, 2000)
-    })
-}
+        }, 2000);
+    });
+};
 
 describe('util/index.ts', () => {
     test('init', async () => {
-        const args = { _: ['check'] }
+
+        const args = { _: ['check'] };
 
         const { _: commands } = args;
-        const [command = '',] = commands || [];
+        const [command = '', ] = commands || [];
 
         switch (command) {
             case 'check':
@@ -26,8 +30,8 @@ describe('util/index.ts', () => {
                 break;
 
             default:
-                console.log('@@command', 'no command found');
+                debug('@@command', 'no command found');
                 break;
         }
-    })
-})
+    });
+});
