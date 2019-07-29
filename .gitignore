@@ -88,4 +88,11 @@ package-lock.json
 # DynamoDB Local files
 .dynamodb/
 
-dist/
+# Custom
+yarn.lock
+
+*.js
+*.d.ts
+*.d.ts.map
+
+!jest.config.js

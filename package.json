@@ -2,14 +2,15 @@
   "name": "github-actions-workman",
   "version": "0.0.0-development",
   "description": "Workman For Egg.js",
-  "main": "dist/bin/workman.js",
+  "main": "bin/workman.js",
   "bin": {
-    "workman": "dist/bin/workman.js"
+    "workman": "bin/workman.js"
   },
   "scripts": {
-    "dev": "tsc -w",
     "build": "tsc",
     "ci": "npm run test",
+    "clean": "./scripts/clean.sh",
+    "dev": "tsc -w",
     "lint": "tslint --project . ",
     "semantic-release": "tsc && semantic-release",
     "test": "jest --verbose",
