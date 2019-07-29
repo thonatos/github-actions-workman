@@ -12,12 +12,12 @@ const options = {
 
 const task = async (tools: any) => {
   const args: any = tools.arguments;
-  tools.log('@@arguments', args);
+  tools.log('@arguments', args);
 
   const { _: commands } = args;
   const [command = '', ] = commands || [];
 
-  tools.log('@@command', command);
+  tools.log('@command', command);
 
   if (command === 'check') {
     const checker = new Checker();
@@ -31,7 +31,7 @@ const task = async (tools: any) => {
     return;
   }
 
-  tools.log('@@command', 'no command found');
+  tools.log('@command', 'no command found');
 };
 
 Toolkit.run(task, options);

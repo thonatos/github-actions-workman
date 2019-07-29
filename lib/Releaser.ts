@@ -4,7 +4,7 @@ export default class Checker extends Base {
   public async publishNodePackage() {
     const { pkg, tools } = this;
     tools.log('@@publishNodePackage', pkg);
-    await tools.runInWorkspace('git', ['checkout', 'master']);
+    // await tools.runInWorkspace('git', ['checkout', 'master']);
     await tools.runInWorkspace('npm', ['publish', '--access', 'public']);
   }
 
@@ -12,7 +12,6 @@ export default class Checker extends Base {
     await super.init(tools);
 
     const { event, packageVersion } = this;
-    const commitMessage = await this.getCommitMessage();
 
     if (event !== 'push') {
       tools.exit.neutral('Releaser: should be triggered with event:push');
@@ -20,6 +19,7 @@ export default class Checker extends Base {
     }
 
     tools.log('Releaser: Check Commit Message');
+    const commitMessage = await this.getCommitMessage();
     if (commitMessage !== `Release ${packageVersion}`) {
       tools.exit.neutral('Releaser: commit message should include release proposal');
       return;

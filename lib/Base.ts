@@ -21,31 +21,27 @@ export default class Base {
   }
 
   public async init(tools: any) {
-
-    const pkg = tools.getPackageJSON() || {};
     const { event, payload, repo } = tools.context;
     const { action } = payload;
 
-    tools.log('@@@event', event);
-    tools.log('@@@action', action);
-    tools.log('@@@pkg', JSON.stringify(pkg, null, 2));
-    tools.log('@@@repo', JSON.stringify(repo, null, 2));
-    tools.log('@@@event', JSON.stringify(event, null, 2));
-    tools.log('@@@payload', JSON.stringify(payload, null, 2));
+    tools.log('@@event', event);
+    tools.log('@@action', action);
+    tools.log('@@repo', JSON.stringify(repo, null, 2));
+    tools.log('@@payload', JSON.stringify(payload, null, 2));
 
-    this.pkg = pkg;
+    // base
     this.tools = tools;
     this.event = event;
     this.action = action;
     this.payload = payload;
 
-    await this.prepare();
-  }
-
-  public async prepare() {
-    const tools = this.tools;
+    // npm package
     const pkg = tools.getPackageJSON() || {};
-    const { payload } = tools.context;
+    tools.log('@@@pkg', JSON.stringify(pkg, null, 2));
+
+    this.pkg = pkg;
+    this.packageVersion = pkg.version || '*';
+    this.latestVersion = await latestNpmVersion(pkg.name || '');
 
     // changelog
     try {
@@ -54,11 +50,5 @@ export default class Base {
     } catch (error) {
       this.changelog = undefined;
     }
-
-    // current npm version
-    this.packageVersion = pkg.version || '*';
-
-    // latest npm version
-    this.latestVersion = await latestNpmVersion(pkg.name || '');
   }
 }
