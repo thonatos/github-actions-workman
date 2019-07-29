@@ -6,7 +6,7 @@ export default class Checker extends Base {
     await super.init(tools);
 
     const { releaseBranch } = tools.arguments;
-    const { event, packageVersion } = this;
+    const { event, packageVersion, latestVersion } = this;
 
     if (event !== 'push') {
       tools.exit.neutral(`[Releaser] should be triggered by event:push`);
@@ -21,10 +21,15 @@ export default class Checker extends Base {
       }
     }
 
-    tools.log(' Check Commit Message');
+    tools.log('[Releaser] check commit message');
     const commitMessage = await this.getCommitMessage();
     if (commitMessage !== `Release ${packageVersion}`) {
       tools.exit.neutral('[Releaser] commit message should include release proposal');
+      return;
+    }
+
+    if (packageVersion === latestVersion) {
+      tools.exit.neutral('[Releaser] the version has been published already, skip');
       return;
     }
 
