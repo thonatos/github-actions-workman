@@ -5,12 +5,12 @@
 [![Semantic Release][semantic-release-square]][semantic-release-url]
 
 [license-square]: https://img.shields.io/badge/license-MIT-blue.svg?style=flat-square
+[license-url]: https://github.com/thonatos/github-actions-workman/blob/HEAD/LICENSE
 [egg-square]: https://img.shields.io/badge/Awesome-Egg.js-ff69b4.svg?style=flat-square
-[npm-square]: https://img.shields.io/npm/v/github-actions-workman.svg?style=flat-square
-[semantic-release-square]: https://img.shields.io/badge/%20%20%F0%9F%93%A6%F0%9F%9A%80-semantic--release-e10079.svg?style=flat-square
-[license-url]: https://github.com/thonatos/github-actions-release/blob/HEAD/LICENSE
 [egg-url]: https://eggjs.org/
+[npm-square]: https://img.shields.io/npm/v/github-actions-workman.svg?style=flat-square
 [npm-url]: https://www.npmjs.com/package/github-actions-workman
+[semantic-release-square]: https://img.shields.io/badge/%20%20%F0%9F%93%A6%F0%9F%9A%80-semantic--release-e10079.svg?style=flat-square
 [semantic-release-url]: https://github.com/semantic-release/semantic-release
 
 > Github actions for the package release.
@@ -27,7 +27,7 @@
 
 #### Check Release Version
 
-```
+```bash
 1.0.0 -> 1.0.1 ✅
 1.0.0 -> 1.0.1 ✅
 2.0.0 -> 1.0.0 ❎
@@ -37,7 +37,7 @@
 
 Add the label to the Release Pull Request
 
-```
+```bash
 1.0.0 -> 1.0.1 👉 semver:patch
 1.0.0 -> 1.1.1 👉 semver:minor
 1.0.0 -> 2.2.1 👉 semver:major
@@ -83,20 +83,20 @@ workflow "Pull Request" {
 
 ## actions
 action "npm install" {
-  uses = "docker://node:lts-slim"
+  uses = "docker://thonatos/github-actions-nodejs"
   args = "npm install"
 }
 
 action "npm ci" {
-  uses = "docker://node:lts-slim"
+  uses = "docker://thonatos/github-actions-nodejs"
   needs = ["npm install"]
   args = "npm run ci"
 }
 
-action "npm check" {
-  uses = "thonatos/github-actions-release@master"
+action "workman check" {
+  uses = "thonatos/github-actions-workman@master"
   needs = ["npm ci"]
-  args = "actions-release check"
+  args = "workman check"
   secrets = [
     "GITHUB_TOKEN",
     "NPM_TOKEN"
@@ -112,25 +112,25 @@ action "npm check" {
 ## workflow
 workflow "Push" {
   on = "push"
-  resolves = ["npm release"]
+  resolves = ["workman release"]
 }
 
 ## actions
 action "npm install" {
-  uses = "docker://node:lts-slim"
+  uses = "docker://thonatos/github-actions-nodejs"
   args = "npm install"
 }
 
 action "npm ci" {
-  uses = "docker://node:lts-slim"
+  uses = "docker://thonatos/github-actions-nodejs"
   needs = ["npm install"]
   args = "npm run ci"
 }
 
-action "npm release" {
-  uses = "thonatos/github-actions-release@master"
+action "workman release" {
+  uses = "thonatos/github-actions-workman@master"
   needs = ["npm ci"]
-  args = "actions-release release"
+  args = "workman release --releaseBranch master"
   secrets = [
     "GITHUB_TOKEN",
     "NPM_TOKEN"
@@ -157,7 +157,7 @@ Handle Pull Request
 
 ### Suggestions
 
-Please open an issue [here](https://github.com/thonatos/github-actions-release/issues).
+Please open an issue [here](https://github.com/thonatos/github-actions-workman/issues).
 
 ### License
 
